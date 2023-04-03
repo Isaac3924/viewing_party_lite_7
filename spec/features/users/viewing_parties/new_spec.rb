@@ -2,9 +2,9 @@ require "rails_helper"
 
 RSpec.describe "New Viewing Party Page" do 
   before(:each) do 
-    @user_1 = User.create!(name: "Joe Smith", email: "joey_smithy@yahooey.com")
-    @user_2 = User.create!(name: "Sam Smith", email: "sam_smithy@yahooey.com")
-    @user_3 = User.create!(name: "Jane Doe", email: "jane_doe@yahooey.com")
+    @user_1 = User.create!(username: "j_smitty", password: "1234", name: "Joe Smith", email: "joey_smithy@yahooey.com")
+    @user_2 = User.create!(username: "s_smitty", password: "password", name: "Sam Smith", email: "sam_smithy@yahooey.com")
+    @user_3 = User.create!(username: "j_doe", password: "9876", name: "Jane Doe", email: "jane_doe@yahooey.com")
 
     visit "/users/#{@user_2.id}/movies/238/viewing_party/new" 
   end

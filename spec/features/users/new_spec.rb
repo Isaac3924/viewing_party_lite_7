@@ -16,8 +16,11 @@ RSpec.describe "Registration Page" do
 
     it "Once the user registers they should be taken to their show page" do 
       within(".register_user") do
+        fill_in(:username, with: "bob")
         fill_in(:name, with: "Bob")
         fill_in(:email, with: "bob@builder.com")
+        fill_in(:password, with: "whateveah")
+        fill_in(:password_confirmation, with: "whateveah")
         click_button("Create New User")
       end
 
@@ -37,11 +40,28 @@ RSpec.describe "Registration Page" do
 
       expect(current_path).to eq("/register")
       expect(user).to eq(nil)
-      expect(page).to have_content("Error: Invalid form entry")
+      expect(page).to have_content("Username can't be blank, Password can't be blank, Name can't be blank")
+    end
+
+    it "Get an error message and return to '/register' when password and password_confirmation don't match" do 
+      within(".register_user") do
+        fill_in(:username, with: "bob")
+        fill_in(:name, with: "Bob")
+        fill_in(:email, with: "bob@builder.com")
+        fill_in(:password, with: "whateveah")
+        fill_in(:password_confirmation, with: "whatever")
+        click_button("Create New User")
+      end
+
+      user = User.last
+
+      expect(current_path).to eq("/register")
+      expect(user).to eq(nil)
+      expect(page).to have_content("Password confirmation doesn't match Password")
     end
 
     it "Get an error message and return to '/register' when a second user is made that is using an email that already exists and isn't made" do 
-      user_1 = User.create!(name: "Bob", email: "bob@builder.com")
+      user_1 = User.create!(username: "bob", password: "bob", name: "Bob", email: "bob@builder.com")
       
       within(".register_user") do
         fill_in(:name, with: "Rob")
@@ -58,7 +78,7 @@ RSpec.describe "Registration Page" do
       expect(user_2.name).to eq("Bob")
       expect(user_2.name).to_not eq("Rob")
       expect(user_2).to eq(user_1)
-      expect(page).to have_content("Error: Invalid form entry")
+      expect(page).to have_content("Username can't be blank, Password can't be blank, Email has already been taken")
     end
   end
 end

@@ -2,9 +2,9 @@ require "rails_helper"
 
 RSpec.describe ViewingParty do 
   before(:each) do 
-    @user_1 = User.create!(name: "Joe Smith", email: "joey_smithy@yahooey.com")
-    @user_2 = User.create!(name: "Sam Smith", email: "sam_smithy@yahooey.com")
-    @user_3 = User.create!(name: "Sam Saaaaa", email: "sam_saaaaa@yahooey.com")
+    @user_1 = User.create!(username: "j_smitty", password: "1234", name: "Joe Smith", email: "joey_smithy@yahooey.com")
+    @user_2 = User.create!(username: "s_smitty", password: "password", name: "Sam Smith", email: "sam_smithy@yahooey.com")
+    @user_3 = User.create!(username: "s_saaaaa", password: "5879", name: "Sam Saaaaa", email: "sam_saaaaa@yahooey.com")
 
     @viewing_party_1 = ViewingParty.create!(duration_of_party: 300, when: "2023-12-25", start_time: "10:10 AM", movie_id: 238 )
     @viewing_party_2 = ViewingParty.create!(duration_of_party: 280, when: "2439-10-31", start_time: "11:48 AM", movie_id: 278)
