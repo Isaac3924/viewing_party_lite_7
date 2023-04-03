@@ -2,10 +2,16 @@
 <h3>Register a New User</h3>
 <section class = "register_user">
   <%= form_with url: "/register", method: :post, local: true do |form| %>
+    <%= form.label :username, "Username:" %>
+    <%= form.text_field :username %> <br>
     <%= form.label :name, "Name:" %>
     <%= form.text_field :name %> <br>
     <%= form.label :email, "Email:" %>
     <%= form.text_field :email %> <br>
+    <%= form.label :password, "Password:" %>
+    <%= form.text_field :password %> <br>
+    <%= form.label :password_confirmation, "Password Confirmation:" %>
+    <%= form.text_field :password_confirmation %> <br>
     <%= form.button "Create New User" %>
   <% end %>
 </section>

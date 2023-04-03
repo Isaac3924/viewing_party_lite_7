@@ -15,9 +15,10 @@ class UsersController < ApplicationController
   def create
     user = User.new(user_params)
     if user.save
+      flash[:notice] = "#{user.username} has been registered."
       redirect_to user_path(user)
     else
-      flash[:error] = "Error: Invalid form entry"
+      flash[:error] = user.errors.full_messages.join(', ')
       redirect_to "/register"
     end
   end
@@ -48,6 +49,6 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.permit(:name, :email)
+      params.permit(:username, :name, :email, :password, :password_confirmation)
     end
 end
