@@ -30,7 +30,7 @@ RSpec.describe "Landing Page" do
 
       within(".users") do 
         click_link("#{@user_1.email}")
-        expect(current_path).to eq(user_path(@user_1))
+        expect(current_path).to eq(login_path)
       end
     end
 

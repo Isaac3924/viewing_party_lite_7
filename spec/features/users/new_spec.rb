@@ -14,7 +14,7 @@ RSpec.describe "Registration Page" do
       end
     end
 
-    it "Once the user registers they should be taken to their show page" do 
+    it "Once the user registers they should be taken to login" do 
       within(".register_user") do
         fill_in(:username, with: "bob")
         fill_in(:name, with: "Bob")
@@ -26,7 +26,7 @@ RSpec.describe "Registration Page" do
 
       user = User.last
 
-      expect(current_path).to eq(user_path(user))
+      expect(current_path).to eq(login_path)
     end
 
     it "Get an error message and return to '/register' with no new user created" do 

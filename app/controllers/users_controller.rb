@@ -1,10 +1,15 @@
 class UsersController < ApplicationController
   def show 
     @user = User.find(params[:id])
-    @movie_details = @user.movie_ids.map do |movie_id|
-      facade = UserFacade.new(nil, nil)
-      facade.get_movie_details(movie_id)
-      facade.details
+
+    if session[:user_id] == @user.id
+      @movie_details = @user.movie_ids.map do |movie_id|
+        facade = UserFacade.new(nil, nil)
+        facade.get_movie_details(movie_id)
+        facade.details
+      end
+    else  
+      redirect_to login_path
     end
   end
 
@@ -52,13 +57,18 @@ class UsersController < ApplicationController
 
   def login
     user = User.find_by(email: params[:email])
-    if user.authenticate(params[:password])
-      session[:user_id] = user.id
-      flash[:success] = "Welcome, #{user.username}!"
-      redirect_to user_path(user)
-    else
-      flash[:error] = "Sorry, your credentials are bad."
+    if user == nil
+      flash[:error] = "Sorry, your email does not exist as a user."
       redirect_to login_path
+    else
+      if user.authenticate(params[:password])
+        session[:user_id] = user.id
+        flash[:success] = "Welcome, #{user.username}!"
+        redirect_to user_path(user)
+      else
+        flash[:error] = "Sorry, your credentials are bad."
+        redirect_to login_path
+      end
     end
   end
 
