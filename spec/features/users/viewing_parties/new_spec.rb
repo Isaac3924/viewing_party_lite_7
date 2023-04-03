@@ -37,6 +37,10 @@ RSpec.describe "New Viewing Party Page" do
       
       viewing_party = ViewingParty.last
 
+      fill_in :email, with: @user_2.email
+      fill_in :password, with: @user_2.password
+
+      click_on "Log In"
       expect(current_path).to eq(user_path(@user_2))
       expect(ViewingParty.count).to eq(1)
       expect(ViewingPartyUser.count).to eq(2)
