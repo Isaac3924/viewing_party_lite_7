@@ -73,6 +73,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def logout
+    if session[:user_id] != nil
+      session[:user_id] = nil
+      redirect_to root_path
+    else
+      flash[:error] = "Sorry, you cannot logout if you are not logged in."
+      redirect_to root_path
+    end
+  end
+
   private
     def user_params
       params.permit(:username, :name, :email, :password, :password_confirmation)
