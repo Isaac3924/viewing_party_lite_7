@@ -1,8 +1,12 @@
 <h1>Welcome to Viewing Party Lite</h1>
 
-<%=button_to "Create a New User", "/register", method: :get %><br>
+<% if current_user %>
+  <%= link_to "Log Out", logout_path, method: :patch%>
+<% else %>
+  <%=button_to "Create a New User", "/register", method: :get %><br>
 
-<%= link_to "Log In", login_path %>
+  <%= link_to "Log In", login_path %>
+<% end %>
 
 <section class="users">
   <h3>Existing Users</h3>
