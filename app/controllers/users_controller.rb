@@ -1,15 +1,19 @@
 class UsersController < ApplicationController
   def show 
     @user = User.find(params[:id])
-
-    if session[:user_id] == @user.id
-      @movie_details = @user.movie_ids.map do |movie_id|
-        facade = UserFacade.new(nil, nil)
-        facade.get_movie_details(movie_id)
-        facade.details
+    if session[:user_id] == nil
+      redirect_to root_path
+      flash[:error] = "You must be logged in or registered to access your dashboard."
+    else
+      if session[:user_id] == @user.id
+        @movie_details = @user.movie_ids.map do |movie_id|
+          facade = UserFacade.new(nil, nil)
+          facade.get_movie_details(movie_id)
+          facade.details
+        end
+      else  
+        redirect_to login_path
       end
-    else  
-      redirect_to login_path
     end
   end
 
