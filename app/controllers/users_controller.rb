@@ -21,6 +21,7 @@ class UsersController < ApplicationController
     user = User.new(user_params)
     if user.save
       flash[:notice] = "#{user.username} has been registered."
+      session[:user_id] = user.id
       redirect_to user_path(user)
     else
       flash[:error] = user.errors.full_messages.join(', ')
@@ -69,6 +70,16 @@ class UsersController < ApplicationController
         flash[:error] = "Sorry, your credentials are bad."
         redirect_to login_path
       end
+    end
+  end
+
+  def logout
+    if session[:user_id] != nil
+      session[:user_id] = nil
+      redirect_to root_path
+    else
+      flash[:error] = "Sorry, you cannot logout if you are not logged in."
+      redirect_to root_path
     end
   end
 
