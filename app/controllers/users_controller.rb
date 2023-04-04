@@ -21,6 +21,7 @@ class UsersController < ApplicationController
     user = User.new(user_params)
     if user.save
       flash[:notice] = "#{user.username} has been registered."
+      session[:user_id] = user.id
       redirect_to user_path(user)
     else
       flash[:error] = user.errors.full_messages.join(', ')
