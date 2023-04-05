@@ -1,10 +1,10 @@
 <h1>Movie Results!</h1>
-<%= button_to "Discover Page", "/users/#{@user.id}/discover", method: :get %>
+<%= button_to "Discover Page", "/discover", method: :get %>
 
 <section class="movie_results">
   <% @movie_results.each do |movie| %>
     <div class=<%="movie_id_#{movie.id}"%>>
-      <p>Title: <%= link_to "#{movie.title}", "/users/#{@user.id}/movies/#{movie.id}" %></p>
+      <p>Title: <%= link_to "#{movie.title}", "/movies/#{movie.id}" %></p>
       <p>Vote Average: <%=movie.vote_average%></p><br>
     </div>
   <% end %>

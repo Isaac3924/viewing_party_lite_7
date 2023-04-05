@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Bad Log In" do
-  it "takes me to log in when I click my dashboard and I am not logged in." do
+  it "takes me to root page when I visit my dashboard and I am not logged in." do
     user = User.create(username: "funbucket13", password: "test", name: "Funbucket", email: "f_bucket@google.com")
 
-    visit root_path
+    visit dashboard_path
 
-    click_on "#{user.email}"
-
-    expect(current_path).to eq(login_path)
+    expect(current_path).to eq(root_path)
   end
 
   it "takes me to my dashboard when I am logged in." do
@@ -21,7 +19,7 @@ RSpec.describe "Bad Log In" do
 
     click_on "Log In"
 
-    expect(current_path).to eq(user_path(user))
+    expect(current_path).to eq(dashboard_path)
     
     expect(page).to have_content("Welcome, #{user.username}!")
     
@@ -29,7 +27,7 @@ RSpec.describe "Bad Log In" do
 
     click_on "#{user.email}"
 
-    expect(current_path).to eq(user_path(user))
+    expect(current_path).to eq(dashboard_path)
 
   end
 

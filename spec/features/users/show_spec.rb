@@ -26,31 +26,26 @@ RSpec.describe "Dashboard Page" do
 
     @user_4.viewing_party_users.create!(viewing_party: @viewing_party_1, is_host: false)
 
-    visit user_path(@user_1)
+    visit login_path
+
+    fill_in :email, with: @user_1.email
+    fill_in :password, with: @user_1.password
+
+    click_on "Log In"
+
+    visit dashboard_path
   end
 
   describe "when visiting the user's dashboard", :vcr do 
     it "I should see my name in possesive of dashboard" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       expect(page).to have_content("#{@user_1.name}'s Dashboard")
     end
 
     it "And has a button to discover movies" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       expect(page).to have_button("Discover Movies")
     end
 
     it "And has a section that lists viewing parties" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       within(".viewing_parties") do
         expect(page).to have_content("25/12/2023")
         expect(page).to have_content("10:10 AM")
@@ -60,20 +55,12 @@ RSpec.describe "Dashboard Page" do
     end
 
     it "Redirects to the discover page after clicking 'Discover Movies'" do
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       click_button "Discover Movies"
       
-      expect(current_path).to eq("/users/#{@user_1.id}/discover")
+      expect(current_path).to eq("/discover")
     end
 
     it "Has the viewing parties the user was invited to" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
        within(".viewing_parties") do
         expect(page).to have_content("25/12/2023")
         expect(page).to have_content("31/10/2439")
@@ -84,32 +71,20 @@ RSpec.describe "Dashboard Page" do
     end
 
     it "has the image to the movie the user is invited to" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       expect(find(".movie_238")[:src]).to eq("https://image.tmdb.org/t/p/w500//9Baumh5J9N1nJUYzNkm0xsgjpwY.jpg")
     end
 
     it "has the movie title the user is invited to" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       within(".invited_parties") do
         expect(page).to have_link("The Godfather")
         expect(page).to have_link("The Dark Knight")
         expect(page).to_not have_link("Shawshank Redemption")
         click_link "The Godfather"
       end
-       expect(current_path).to eq("/users/#{@user_1.id}/movies/#{238}")
+       expect(current_path).to eq("/movies/#{238}")
     end
 
     it "has date and time of event for the parties the user was invited to" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       within(".invited_parties") do 
         expect(page).to have_content("25/12/2023")
         expect(page).to have_content("31/07/2455")
@@ -120,10 +95,6 @@ RSpec.describe "Dashboard Page" do
     end
 
     it "has the name of the host of the party" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
        within(".invited_parties") do 
         expect(page).to have_content("Host: Sam Smith", count: 2)
         expect(page).to_not have_content("Host: Joe Smith")
@@ -131,10 +102,6 @@ RSpec.describe "Dashboard Page" do
     end
 
      it "has the name the users invited to the party with my name in bold" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
        within(".party_#{@viewing_party_1.id}_guests") do 
         expect(page).to have_content("Joe Smith")
         expect(page).to have_content("Kara Smith")
@@ -143,35 +110,22 @@ RSpec.describe "Dashboard Page" do
         expect(page).to_not have_content("Sam Smith")
       end
     end
-#-----------------------------
 
     it "has the image to the movie the user is hosting" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       expect(find(".movie_278")[:src]).to eq("https://image.tmdb.org/t/p/w500/") 
     end
 
     it "has the movie title the user is hosting" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       within(".hosting") do
         expect(page).to have_link("Shawshank Redemption")
         expect(page).to have_link("The Green Mile")
         expect(page).to_not have_link("The Godfather")
         click_link "Shawshank Redemption"
       end
-       expect(current_path).to eq("/users/#{@user_1.id}/movies/#{278}")
+       expect(current_path).to eq("/movies/#{278}")
     end
 
     it "has date and time of event for the parties the user is hosting" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       within(".hosting") do 
         expect(page).to_not have_content("25/12/2023")
         expect(page).to_not have_content("31/07/2455")
@@ -182,10 +136,6 @@ RSpec.describe "Dashboard Page" do
     end
 
     it "has the name of the host of the party" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
        within(".hosting") do 
         expect(page).to have_content("Host: Joe Smith", count: 2)
         expect(page).to_not have_content("Host: Sam Smith")
@@ -193,10 +143,6 @@ RSpec.describe "Dashboard Page" do
     end
 
     it "has the name the users invited to the party" do 
-      fill_in :email, with: @user_1.email
-      fill_in :password, with: @user_1.password
-
-      click_on "Log In"
       
        within(".party_#{@viewing_party_2.id}_guests") do 
         expect(page).to have_content("Sam Smith")

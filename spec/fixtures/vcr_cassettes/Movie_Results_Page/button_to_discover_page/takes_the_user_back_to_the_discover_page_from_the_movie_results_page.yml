@@ -24,12 +24,8 @@ http_interactions:
       - chunked
       Connection:
       - keep-alive
-      Date:
-      - Mon, 03 Apr 2023 21:19:17 GMT
       Server:
       - openresty
-      Cache-Control:
-      - public, max-age=24176
       X-Memc:
       - HIT
       X-Memc-Key:
@@ -38,23 +34,29 @@ http_interactions:
       - '19437'
       X-Memc-Expires:
       - '2163'
+      Date:
+      - Wed, 05 Apr 2023 06:53:15 GMT
+      Cache-Control:
+      - public, max-age=22073
       Etag:
       - W/"0e23279b004381f72a34159d5c7dfd1f"
       Vary:
       - Accept-Encoding
       - Origin
       X-Cache:
-      - Miss from cloudfront
+      - Hit from cloudfront
       Via:
-      - 1.1 9eceed849af3c369b60088e6ae5ad92c.cloudfront.net (CloudFront)
+      - 1.1 9b688924e5b0f0b5e4c639d19cb145f0.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
       - DEN52-P2
       Alt-Svc:
       - h3=":443"; ma=86400
       X-Amz-Cf-Id:
-      - Y7BDPN9haUi6U5qljWQUGI2mtEpYPqwDHG97cc3xWiVheBBThAPaTw==
+      - CcPKkrJB-d-0OmdeylklzrMAvjJisB04mp8Sz3-rVjlxS-jnF8TLVA==
+      Age:
+      - '1041'
     body:
       encoding: ASCII-8BIT
       string: '{"page":1,"results":[],"total_pages":1,"total_results":0}'
-  recorded_at: Mon, 03 Apr 2023 21:19:17 GMT
+  recorded_at: Wed, 05 Apr 2023 07:10:36 GMT
 recorded_with: VCR 6.1.0

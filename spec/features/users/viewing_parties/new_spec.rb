@@ -6,7 +6,14 @@ RSpec.describe "New Viewing Party Page" do
     @user_2 = User.create!(username: "s_smitty", password: "password", name: "Sam Smith", email: "sam_smithy@yahooey.com")
     @user_3 = User.create!(username: "j_doe", password: "9876", name: "Jane Doe", email: "jane_doe@yahooey.com")
 
-    visit "/users/#{@user_2.id}/movies/238/viewing_party/new" 
+    visit login_path
+
+    fill_in :email, with: @user_2.email
+    fill_in :password, with: @user_2.password
+
+    click_on "Log In"    
+
+    visit "/movies/238/viewing_party/new" 
   end
 
   describe "when visiting the new viewing party page ", :vcr do 
@@ -37,11 +44,7 @@ RSpec.describe "New Viewing Party Page" do
       
       viewing_party = ViewingParty.last
 
-      fill_in :email, with: @user_2.email
-      fill_in :password, with: @user_2.password
-
-      click_on "Log In"
-      expect(current_path).to eq(user_path(@user_2))
+      expect(current_path).to eq(dashboard_path)
       expect(ViewingParty.count).to eq(1)
       expect(ViewingPartyUser.count).to eq(2)
       expect(page).to have_content(viewing_party.when.to_date.strftime("%d/%m/%Y"))
@@ -56,7 +59,7 @@ RSpec.describe "New Viewing Party Page" do
         click_button("Create Party")
       end
 
-      expect(current_path).to eq("/users/#{@user_2.id}/movies/238/viewing_party/new")
+      expect(current_path).to eq("/movies/238/viewing_party/new")
       expect(ViewingParty.count).to eq(0)
       expect(ViewingParty.count).to_not eq(1)
       expect(ViewingPartyUser.count).to eq(0)
