@@ -48,58 +48,43 @@ RSpec.describe "Admin Login" do
       click_link("#{@user_1.email}")
     end
 
+    expect(current_path).to eq(admin_user_path(@user_1))
+
     expect(page).to have_content("#{@user_1.name}'s Dashboard")
   end
 
-  xit "takes me to my dashboard when I am logged in." do
-    user = User.create(username: "funbucket13", password: "test", name: "Funbucket", email: "f_bucket@google.com")
+  it "As a visitor when I visit any admin routes, I get redirected back to the landing page with a message alerting me to authorization" do
+    visit admin_dashboard_index_path
 
-    visit login_path
-
-    fill_in :email, with: user.email
-    fill_in :password, with: user.password
-
-    click_on "Log In"
-
-    expect(current_path).to eq(dashboard_path)
+    expect(current_path).to eq(root_path)
     
-    expect(page).to have_content("Welcome, #{user.username}!")
+    expect(page).to have_content("You are not authorized to view this page.")
+
+    visit admin_user_path(@user_1)
+
+    expect(current_path).to eq(root_path)
     
-    visit root_path
-
-    click_on "#{user.email}"
-
-    expect(current_path).to eq(dashboard_path)
-
+    expect(page).to have_content("You are not authorized to view this page.")
   end
 
-  xit "cannot log in with bad credentials" do
-    user = User.create(username: "funbucket13", password: "test", name: "Funbucket", email: "f_bucket@google.com")
-
+  it "As a default when I visit any admin routes, I get redirected back to the landing page with a message alerting me to authorization" do
     visit login_path
 
-    fill_in :email, with: user.email
-    fill_in :password, with: "incorrect password"
-
+    fill_in :email, with: @user_1.email
+    fill_in :password, with: @user_1.password
+    
     click_on "Log In"
+    
+    visit admin_dashboard_index_path
 
-    expect(current_path).to eq(login_path)
+    expect(current_path).to eq(root_path)
+    
+    expect(page).to have_content("You are not authorized to view this page.")
 
-    expect(page).to have_content("Sorry, your credentials are bad.")
-  end
+    visit admin_user_path(@user_1)
 
-  xit "cannot log in with bad credentials 2" do
-    user = User.create(username: "funbucket13", password: "test", name: "Funbucket", email: "f_bucket@google.com")
-
-    visit login_path
-
-    fill_in :email, with: "invalid"
-    fill_in :password, with: "test"
-
-    click_on "Log In"
-
-    expect(current_path).to eq(login_path)
-
-    expect(page).to have_content("Sorry, your email does not exist as a user.")
+    expect(current_path).to eq(root_path)
+    
+    expect(page).to have_content("You are not authorized to view this page.")
   end
 end
