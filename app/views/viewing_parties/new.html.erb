@@ -2,7 +2,7 @@
 
 <section class = "new_party">
 <h3>Viewing Party Details</h3>
-<%= form_with url: "/users/#{@user.id}/movies/238/viewing_party", method: :post, local: true do |form| %>
+<%= form_with url: "/movies/#{@movie[:id]}/viewing_party", method: :post, local: true do |form| %>
   <%= form.label :duration_of_party %>
   <%= form.number_field :duration_of_party, min: @movie[:runtime], value: @movie[:runtime] %>
   <%= form.label :when %>

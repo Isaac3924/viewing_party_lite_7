@@ -1,6 +1,6 @@
 <h2><%= "#{@user.name}'s "%>Dashboard</h2>
 
-<%= button_to "Discover Movies", "/users/#{@user.id}/discover", method: :get %>
+<%= button_to "Discover Movies", "/discover", method: :get %>
 
 <section class = "viewing_parties">
   <section class="invited_parties">
@@ -11,7 +11,7 @@
             <% @movie_details.each do |movie| %> 
               <% if movie[:id] == party.movie_id %> 
                 <img class="movie_<%=movie[:id]%>" src="https://image.tmdb.org/t/p/w500/<%=movie[:image]%>">
-                <h3><%=link_to "#{movie[:movie_title]}", "/users/#{@user.id}/movies/#{movie[:id]}"%></h3>
+                <h3><%=link_to "#{movie[:movie_title]}", "/movies/#{movie[:id]}"%></h3>
               <% end %>
             <% end %>
             <p>Party Date: <%= party.when.to_date.strftime("%d/%m/%Y") %></p><br>
@@ -42,7 +42,7 @@
             <% @movie_details.each do |movie| %> 
               <% if movie[:id] == party.movie_id %> 
                 <img class="movie_<%=movie[:id]%>" src="https://image.tmdb.org/t/p/w500/<%=movie[:image]%>">
-                <h3><%=link_to "#{movie[:movie_title]}", "/users/#{@user.id}/movies/#{movie[:id]}"%></h3>
+                <h3><%=link_to "#{movie[:movie_title]}", "/movies/#{movie[:id]}"%></h3>
               <% end %>
             <% end %>
             <p>Party Date: <%= party.when.to_date.strftime("%d/%m/%Y") %></p><br>

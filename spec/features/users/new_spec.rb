@@ -26,7 +26,7 @@ RSpec.describe "Registration Page" do
 
       user = User.last
 
-      expect(current_path).to eq(user_path(user))
+      expect(current_path).to eq(dashboard_path)
     end
 
     it "Get an error message and return to '/register' with no new user created" do 

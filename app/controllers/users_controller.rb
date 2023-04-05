@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
   def show 
-    @user = User.find(params[:id])
     if session[:user_id] == nil
       redirect_to root_path
       flash[:error] = "You must be logged in or registered to access your dashboard."
     else
+      @user = User.find(session[:user_id])
       if session[:user_id] == @user.id
         @movie_details = @user.movie_ids.map do |movie_id|
           facade = UserFacade.new(nil, nil)
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     if user.save
       flash[:notice] = "#{user.username} has been registered."
       session[:user_id] = user.id
-      redirect_to user_path(user)
+      redirect_to dashboard_path
     else
       flash[:error] = user.errors.full_messages.join(', ')
       redirect_to "/register"
@@ -34,14 +34,19 @@ class UsersController < ApplicationController
   end
 
   def discover
-    @user = User.find(params[:id])
+    if session[:user_id] == nil
+      flash[:error] = "You must be logged in or registered to access discover page."
+      redirect_to root_path
+    else
+      @user = User.find(session[:user_id])
+    end
   end
 
   def movie_results 
     search = params[:search]
     top_rated_search = params[:top_rated_search]
     
-    @user = User.find(params[:id])
+    @user = User.find(session[:user_id])
 
     facade = UserFacade.new(search, top_rated_search)
     @movie_results = facade.determine_search
@@ -50,11 +55,10 @@ class UsersController < ApplicationController
   def movie_details 
     facade = UserFacade.new(nil, nil)
     facade.get_movie_details(params[:movie_id])
-
+  
     @details = facade.details 
     @reviews = facade.reviews
     @credits = facade.credits
-    @user = User.find(params[:user_id])
   end
 
   def login_form
@@ -69,7 +73,7 @@ class UsersController < ApplicationController
       if user.authenticate(params[:password])
         session[:user_id] = user.id
         flash[:success] = "Welcome, #{user.username}!"
-        redirect_to user_path(user)
+        redirect_to dashboard_path
       else
         flash[:error] = "Sorry, your credentials are bad."
         redirect_to login_path
