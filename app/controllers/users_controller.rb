@@ -11,8 +11,6 @@ class UsersController < ApplicationController
           facade.get_movie_details(movie_id)
           facade.details
         end
-      else  
-        redirect_to login_path
       end
     end
   end
@@ -89,9 +87,6 @@ class UsersController < ApplicationController
   def logout
     if session[:user_id] != nil
       session[:user_id] = nil
-      redirect_to root_path
-    else
-      flash[:error] = "Sorry, you cannot logout if you are not logged in."
       redirect_to root_path
     end
   end
