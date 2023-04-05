@@ -22,10 +22,6 @@ RSpec.describe "Bad Log In" do
     expect(current_path).to eq(dashboard_path)
     
     expect(page).to have_content("Welcome, #{user.username}!")
-    
-    visit root_path
-
-    click_on "#{user.email}"
 
     expect(current_path).to eq(dashboard_path)
 

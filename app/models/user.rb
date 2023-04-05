@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   has_secure_password
 
+  enum role: %w(default admin)
+
   def movie_ids 
     viewing_parties.pluck('movie_id')
   end
