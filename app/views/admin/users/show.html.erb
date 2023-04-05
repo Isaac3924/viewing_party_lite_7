@@ -1,0 +1,64 @@
+<h2><%= "#{@user.name}'s "%>Dashboard</h2>
+
+<%= button_to "Discover Movies", "/discover", method: :get %>
+
+<section class = "viewing_parties">
+  <section class="invited_parties">
+    <h2> You Are Invited To: </h2>
+      <ul>
+        <% @user.viewing_parties_invited_to.each do |party| %>
+          <li>
+            <% @movie_details.each do |movie| %> 
+              <% if movie[:id] == party.movie_id %> 
+                <img class="movie_<%=movie[:id]%>" src="https://image.tmdb.org/t/p/w500/<%=movie[:image]%>">
+                <h3><%=link_to "#{movie[:movie_title]}", "/movies/#{movie[:id]}"%></h3>
+              <% end %>
+            <% end %>
+            <p>Party Date: <%= party.when.to_date.strftime("%d/%m/%Y") %></p><br>
+            <p>Start Time: <%= party.start_time.strftime("%I:%M %p") %></p><br>
+            <p>Host: <%=party.party_host.name%></p>
+            <p> Users Invited to Party! </p>
+              <ul class=<%="party_#{party.id}_guests"%>>
+                <% party.users_invited.each do |user| %>
+                  <li>
+                    <%if user.name == @user.name %>
+                      <p><b><%=user.name%></b></p>
+                    <%else%>
+                      <p><%=user.name%></p>
+                    <%end %>
+                  </li>
+                <% end %>
+              </ul>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+
+    <section class="hosting">
+      <h2> I Am Hosting: </h2>
+      <ul>
+        <% @user.viewing_parties_as_host.each do |party| %>
+           <li>
+            <% @movie_details.each do |movie| %> 
+              <% if movie[:id] == party.movie_id %> 
+                <img class="movie_<%=movie[:id]%>" src="https://image.tmdb.org/t/p/w500/<%=movie[:image]%>">
+                <h3><%=link_to "#{movie[:movie_title]}", "/movies/#{movie[:id]}"%></h3>
+              <% end %>
+            <% end %>
+            <p>Party Date: <%= party.when.to_date.strftime("%d/%m/%Y") %></p><br>
+            <p>Start Time: <%= party.start_time.strftime("%I:%M %p") %></p><br>
+            <p>Host: <%=party.party_host.name%></p>
+            <p> Users Invited to Party! </p>
+              <ul class=<%="party_#{party.id}_guests"%>>
+                <% party.users_invited.each do |user| %>
+                  <li>
+                    <p><%=user.name%></p>
+                  </li>
+                <% end %>
+              </ul>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+</section>
+

@@ -21,7 +21,7 @@ RSpec.describe "Landing Page" do
       expect(current_path).to eq("/register")
     end
 
-    it " has a list of existing users, which links to the users dashboard" do 
+    it " has a list of existing users, that are no longer links" do 
 
       visit login_path
 
@@ -36,11 +36,9 @@ RSpec.describe "Landing Page" do
         expect(page).to have_content("Existing Users")
         expect(page).to have_content("#{@user_1.email}")
         expect(page).to have_content("#{@user_2.email}")
-      end
 
-      within(".users") do 
-        click_link("#{@user_1.email}")
-        expect(current_path).to eq(dashboard_path)
+        expect(page).to_not have_link("#{@user_1.email}")
+        expect(page).to_not have_link("#{@user_2.email}")
       end
     end
 

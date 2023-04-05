@@ -24,6 +24,8 @@ Rails.application.routes.draw do
 
   get "/dashboard", to: "users#show"
   
-  # resources :users, only: [:show] do
-  # end
+  namespace :admin do
+    resources :dashboard, only: :index
+    resources :users, only: :show
+  end
 end

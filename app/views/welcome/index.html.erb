@@ -13,7 +13,7 @@
     <h3>Existing Users</h3>
     <ul>
       <% @users.each do |user| %>
-        <li><%= link_to "#{user.email}", dashboard_path %></li>
+        <li><%= "#{user.email}" %></li>
       <% end %>
     </ul>
   <% else %>
